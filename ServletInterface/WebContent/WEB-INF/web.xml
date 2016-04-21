@@ -8,4 +8,17 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
+  
+<servlet>
+	<servlet-name>TestServletInterface</servlet-name>
+	<servlet-class>com.isac.javaweb.TestServletInterface</servlet-class>
+</servlet>
+
+
+<servlet-mapping>
+	<servlet-name>TestServletInterface</servlet-name>
+	<url-pattern>/test</url-pattern>
+	<url-pattern>/hello</url-pattern>
+</servlet-mapping>
 </web-app>

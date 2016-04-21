@@ -30,7 +30,7 @@
         
   </dependencies>
   <build>
-    <finalName>ServletInterface</finalName>
+    <finalName>web_project_template</finalName>
             <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -50,8 +50,8 @@
                 	<url>http://localhost:8080/manager/text</url>
                     <uriEncoding>UTF-8</uriEncoding>
                     <server>tomcat</server>
-                    <path>/ServletInterface</path>
-                    <finalName>ServletInterface</finalName>
+                    <path>/web_project_template</path>
+                    <finalName>web_project_template</finalName>
 
                 </configuration>
             </plugin>
