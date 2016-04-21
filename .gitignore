@@ -45,3 +45,18 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.classpath
+Restaurant/.project
+*.prefs
+Restaurant/target/classes/com/isaac/javaweb/NoodlesServerlet.class
+Restaurant/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
+Restaurant/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+Restaurant/target/Restaurant.war
+Restaurant/target/Restaurant/StaticPage.html
+Restaurant/target/Restaurant/WEB-INF/lib/log4j-1.2.17.jar
+*.2016-04-19
+Restaurant/target/tomcat/work/Tomcat/localhost/Restaurant/org/apache/jsp/index_jsp.java
+Restaurant/target/Restaurant/WEB-INF/web.xml
+Restaurant/target/m2e-wtp/web-resources/META-INF/maven/com.isaac.javaweb/Restaurant/pom.xml
+Restaurant/target/*
+
