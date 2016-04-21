@@ -59,4 +59,5 @@ Restaurant/target/tomcat/work/Tomcat/localhost/Restaurant/org/apache/jsp/index_j
 Restaurant/target/Restaurant/WEB-INF/web.xml
 Restaurant/target/m2e-wtp/web-resources/META-INF/maven/com.isaac.javaweb/Restaurant/pom.xml
 Restaurant/target/*
-
+.metadata/*
+Servers/*
