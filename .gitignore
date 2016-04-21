@@ -61,3 +61,4 @@ Restaurant/target/m2e-wtp/web-resources/META-INF/maven/com.isaac.javaweb/Restaur
 Restaurant/target/*
 .metadata/*
 Servers/*
+ServletInterface/target/*

@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.isaac.javaweb</groupId>
-  <artifactId>ServletInterface</artifactId>
+  <artifactId>ServletTest</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>ServletInterface Maven Webapp</name>
+  <name>ServletTest Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -14,24 +14,16 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    
-       <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>    
-        
-        <dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-        
+    <dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>javax.servlet-api</artifactId>
+       <version>3.0.1</version>
+       <scope>provided</scope>
+    </dependency>    
   </dependencies>
   <build>
-    <finalName>web_project_template</finalName>
-            <plugins>
+    <finalName>ServletTest</finalName>
+    <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -50,8 +42,8 @@
                 	<url>http://localhost:8080/manager/text</url>
                     <uriEncoding>UTF-8</uriEncoding>
                     <server>tomcat</server>
-                    <path>/web_project_template</path>
-                    <finalName>web_project_template</finalName>
+                    <path>/ServletTest</path>
+                    <finalName>ServletTest</finalName>
 
                 </configuration>
             </plugin>
