@@ -40,17 +40,20 @@ public class ServletTest extends HttpServlet{
 		
 		//create user name cookie
 		Cookie usernameCookie=new Cookie("username",user);	
-		usernameCookie.setMaxAge(10*30);
+		usernameCookie.setMaxAge(60*30);
 		response.addCookie(usernameCookie);
 		
 		//create session
-		HttpSession session =request.getSession();
-		session.setAttribute("password", password);
+		HttpSession session =request.getSession();		
 		String userpasswordFromsession=(String)session.getAttribute("password");
 		
 		if(userpasswordFromsession!=null)
 		{
 			session.invalidate();
+		}
+		else
+		{
+			session.setAttribute("password", password);
 		}
 		
 		//get cookies
