@@ -66,3 +66,6 @@ ServletInterface/target/*
 .recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.tii
 .recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.nrm
 .recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments.gen
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_1.tii
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments_2
+.recommenders/*
