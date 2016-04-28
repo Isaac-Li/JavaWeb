@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+
 /**
  * Hello world!
  *
@@ -21,7 +23,8 @@ public class JDBCconnectMySQL
     public static void main( String[] args ) throws ClassNotFoundException
     {
     	//getData();
-    	getDataByUsingCur();
+    	//getDataByUsingCur();
+    	getDataByUsingPool();
     }
     
 
@@ -98,6 +101,49 @@ public class JDBCconnectMySQL
 	}
     	
  
+    	
+    }
+    public static void getDataByUsingPool(){
+    	//init data pool
+    	BasicDataSource bs = new BasicDataSource();
+    	bs.setUrl(DB_URL);
+    	bs.setDriverClassName(DRIVER_NAME);
+    	bs.setUsername(DB_USER_NAME);
+    	bs.setPassword(DB_PASSWORD);
+    	
+    	Connection cnn=null;
+    	Statement stat=null;
+    	ResultSet res=null;
+   		String sql="select * from product where Id=1";  
+   		
+    	try {
+			cnn=bs.getConnection();
+	    	stat=cnn.createStatement();
+	    	res=stat.executeQuery(sql);
+	    	
+	    	while(res.next())
+	    	{
+	    		System.out.println("Id:"+res.getString("Id")+" Product Name:"+res.getString("ProductName")+" Inventory:"+res.getString("Inventory"));
+	    	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+	    		if(cnn!=null)
+	    			cnn.close();
+	    		if(stat!=null)
+	    			stat.close();
+	    		if(res!=null)
+	    			res.close();
+	    		if(bs!=null)
+	    			bs.close();
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
     	
     }
 }
