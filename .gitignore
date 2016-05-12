@@ -69,3 +69,8 @@ ServletInterface/target/*
 .recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_1.tii
 .recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments_2
 .recommenders/*
+SpringTest/.settings/.jsdtscope
+SpringTest/.settings/org.eclipse.wst.common.project.facet.core.xml
+mysql/.project
+SpringTest/.project
+SpringTest/.settings/
