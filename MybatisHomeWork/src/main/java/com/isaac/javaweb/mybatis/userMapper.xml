@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://
+mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isaac.javaweb.mybatis.Op">
+
+<select id="getProduct" parameterType="int" resultMap="ProductMap">
+	select id, ProductName, Catalog from Product where id=#{id}
+</select>
+
+<resultMap id="ProductMap" type="com.isaac.javaweb.mybatis.Product">
+	 	  	 <id property="id" column="id"  />
+	 	 	 <result property="productName" column="ProductName"  />
+	 	 	 <result property="catalog" column="catalog" />
+	 	 
+
+</resultMap>
+
+<select id="getUser" parameterType="int" resultMap="UserMap">
+	select u.id as id, u.userName as userName, u.tel as tel, pr.id as ProductID,
+	  pr.ProductName as ProductName,  pr.Catalog as catalog from user u 
+	  left join transaction tr on u.id=tr.Userid
+	  left join Product pr on tr.ProductId=pr.ID  where u.id=#{id}
+</select>
+
+<resultMap id="UserMap" type="com.isaac.javaweb.mybatis.User">
+	 	 <constructor>
+	 	 	 <idArg column="id" javaType="Integer" />
+	 	 	 <arg column="userName" javaType="String" />
+	 	 	 <arg column="tel" javaType="String" />
+	 	 </constructor>
+		<collection property="products"  ofType="com.isaac.javaweb.mybatis.Product">
+	 	 	 <id property="id" column="ProductID" />
+	 	 	 <result property="productName" column="ProductName" />
+	 	 	 <result property="catalog" column="catalog" />
+	 	 </collection>
+</resultMap>
+
+</mapper>
