@@ -1,4 +1,4 @@
-package com.isaac.javaweb.springweb.service.impl;
+package com.isaac.javaweb.springweb.test;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.isaac.javaweb.springweb.meta.User;
 import com.isaac.javaweb.springweb.service.IUserInfor;
+import com.isaac.javaweb.springweb.service.impl.UserInfoImpl;
 
 public class TestApp {
 	public static void main(String[] args){
