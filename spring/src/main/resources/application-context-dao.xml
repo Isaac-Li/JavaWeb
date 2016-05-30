@@ -15,36 +15,25 @@
 	http://mybatis.org/schema/mybatis-spring.xsd
 	http://www.springframework.org/schema/aop 
 	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<context:component-scan base-package="com.isaac.javaweb.springweb.dao" />
+    <mybatis:scan base-package="com.isaac.javaweb.springweb.dao" />
 	
-	<context:component-scan base-package="com.isaac.javaweb.mybatis.usercount" />
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	<mybatis:scan base-package="com.isaac.javaweb.mybatis.usercount" />
-	
-	
-	<context:property-placeholder location="db.properties" />
-		
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">												
-		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">										
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-
-	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	
+	<context:property-placeholder location="classpath:db.properties" />
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />        
 	</bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.isaac.javaweb.mybatis.usercount" />
-    </bean>
-
-	<bean id="SimpleService" class="com.isaac.javaweb.mybatis.usercount.SimpleService">
-        <property name="mybatisUserBalanceDao" ref="mybatisUserBalanceDao" />
-    </bean>
-    
-    	
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource" />
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.isaac.javaweb.springweb.dao" />
     </bean>
 	
 </beans>

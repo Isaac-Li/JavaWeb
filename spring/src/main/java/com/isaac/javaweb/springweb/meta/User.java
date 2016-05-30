@@ -1,4 +1,4 @@
-package com.isaac.javaweb.mybatis.usercount;
+package com.isaac.javaweb.springweb.meta;
 
 public class User {
 	private Long userId;
