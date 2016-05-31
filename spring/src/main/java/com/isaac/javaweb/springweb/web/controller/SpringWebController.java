@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,13 +26,31 @@ public class SpringWebController {
 	}
 	
 	@RequestMapping(value="/query")
-	public @ResponseBody User QueryAccountByUserID(@RequestParam("userID") String userID) {
+	public String checkAccept(@RequestHeader("Accept") String reqHeader){
+		System.out.println(reqHeader);
+		if(reqHeader.contains("html")){			
+			return "forward:/api/query/displaywithfreemarker";
+		}			
+		return "forward:/api/querybyuserid";
+	}
+	
+	@RequestMapping(value="/queryalluser")	
+	public  String checkAcceptForAllAccount(@RequestHeader("Accept") String reqHeader)  {
+		if(reqHeader.contains("html")){			
+			return "forward:/api/queryalluser/displaywithfreemarker";
+		}
+			
+		return "forward:/api/queryalluserforjason";		
+	}
+	
+	@RequestMapping(value="/querybyuserid")
+	public @ResponseBody User QueryAccountByUserID( @RequestParam("userID") String userID) {
 		User user=userinfo.getUserInfoById(Long.valueOf(userID));
 		return user;
 	}
 	
-	@RequestMapping(value="/queryalluser")	
-	public  @ResponseBody List<User> QueryAllAccount()  {
+	@RequestMapping(value="/queryalluserforjason")	
+	public  @ResponseBody List<User> QueryAllAccountForJson()  {
 		List<User> users=userinfo.getAllUserInfo();
 		return  users;
 	}

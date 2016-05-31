@@ -6,20 +6,11 @@
   <section class="container">
     <div class="login">
       <h1>根据用户ID查询用户账户余额</h1>
-      <form method="post" action="api/query/displaywithfreemarker">
-        <p><input type="text" name="userID" value="" placeholder="用户编号"></p>        
-        <p class="submit"><input type="submit" name="commit" value="查询"></p>
-      </form>
-      <h1>查询所有用户账户余额</h1>
-      <form method="post" action="api/queryalluser/displaywithfreemarker">      
-        <p class="submit"><input type="submit" name="commit" value="查询"></p>
-      </form>
-      <h1>根据用户ID查询用户账户余额/显示为Jason格式</h1>
       <form method="post" action="api/query">
         <p><input type="text" name="userID" value="" placeholder="用户编号"></p>        
         <p class="submit"><input type="submit" name="commit" value="查询"></p>
       </form>
-      <h1>查询所有用户账户余额/显示为Jason格式</h1>
+      <h1>查询所有用户账户余额</h1>
       <form method="post" action="api/queryalluser">      
         <p class="submit"><input type="submit" name="commit" value="查询"></p>
       </form>
