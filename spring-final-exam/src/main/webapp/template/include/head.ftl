@@ -1,5 +1,6 @@
 <head>
 <meta charset="utf-8"/>
-<title>java</title>
-<link rel="stylesheet" href="/css/style.css"/>
+<title>Isaac</title>
+<#assign base=request.contextPath />
+<link rel="stylesheet" href="${base}/css/style.css"/>
 </head>

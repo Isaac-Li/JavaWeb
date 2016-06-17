@@ -9,14 +9,14 @@
 <#include "/include/support.ftl">
 <#include "/include/header.ftl">
 <#assign listType = Request['type']>
-<#assign base=request.contextPath />
-<link rel="stylesheet" href="${base}/css/style.css"/>
+
+
 <div class="g-doc">
     <div class="m-tab m-tab-fw m-tab-simple f-cb">
         <div class="tab">
             <ul>
-                <li <#if !listType?? || listType != 1>class="z-sel"</#if> ><a href="/">所有内容</a></li>
-                <#if user?? && user.userType == 0><li <#if listType == 1>class="z-sel"</#if> ><a href="/?type=1">未购买的内容</a></li></#if>
+                <li <#if !listType?? || listType != 1>class="z-sel"</#if> ><a href="${base}/">所有内容</a></li>
+                <#if user?? && user.userType == 0><li <#if listType == 1>class="z-sel"</#if> ><a href="${base}/?type=1">未购买的内容</a></li></#if>
             </ul>
         </div>
     </div>
