@@ -4,5 +4,5 @@ import com.isaac.javaweb.spring.finalexam.meta.User;
 
 public interface IPerson {
 
-	public User getUserInfo(String userName);
+	public User getUserInfo(User user);
 }

@@ -14,9 +14,9 @@ public class IPersonImpl implements IPerson {
 	IPersonDao personDao;
 	
 	@Override
-	public User getUserInfo(String userName) {
-		User user=this.personDao.getUserInfoFromDao(userName);		
-		return user;
+	public User getUserInfo(User user) {
+		User user1=this.personDao.getUserInfoFromDao(user);		
+		return user1;
 	}
 
 }

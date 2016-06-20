@@ -34,7 +34,9 @@ public class DaoTest {
 	@Test
 	public void ServiceTest1(){
 		IPerson person=(IPerson)ctx.getBean("personInfo", IPersonImpl.class);
-		User user=person.getUserInfo("buyer");
+		User user=new User();
+		user.setUserName("buyer");
+		user=person.getUserInfo(user);
 		System.out.println(user.getPassword());
 		System.out.println(user.getUserType());
 		System.out.println(user.getUserid());			
@@ -43,14 +45,18 @@ public class DaoTest {
 	//if the user does not exist, check the result
 	@Test
 	public void DaoTest1(){
-		User user=perDao.getUserInfoFromDao("buyer1");
+		User user=new User();
+		user.setUserName("buyer1");
+		user=perDao.getUserInfoFromDao(user);
 		Assert.assertNull(user);		
 	}
 	
 	//get buyer information
 	@Test
 	public void DaoTest2(){
-		User user=perDao.getUserInfoFromDao("buyer");
+		User user=new User();
+		user.setUserName("buyer");
+		user=perDao.getUserInfoFromDao(user);
 		Assert.assertEquals("buyer's password", "37254660e226ea65ce6f1efd54233424", user.getPassword());
 		Assert.assertEquals("buyer's type", 0, user.getUserType().intValue());
 	}
@@ -58,7 +64,9 @@ public class DaoTest {
 	//get seller information
 	@Test
 	public void DaoTest3(){
-		User user=perDao.getUserInfoFromDao("seller");
+		User user=new User();
+		user.setUserName("seller");
+		user=perDao.getUserInfoFromDao(user);
 		Assert.assertEquals("buyer's password", "981c57a5cfb0f868e064904b8745766f", user.getPassword());
 		Assert.assertEquals("buyer's type", 1, user.getUserType().intValue());
 	}

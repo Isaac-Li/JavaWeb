@@ -33,11 +33,14 @@
         var options = options || {};
         options.type = (options.type || "POST").toUpperCase();
         var xhr = new XMLHttpRequest();
+       
+       
         xhr.onreadystatechange = function(){
             if(xhr.readyState == 4){
                 var status = xhr.status;
-                if(status >= 200 && status < 300 || status == 304){
+                if(status >= 200 && status < 300 || status == 304){                	
                 	var json = JSON.parse(xhr.responseText);
+
                 	if(json && json.code == 200){
                 		options.success && options.success(json.result);
                 	}else{

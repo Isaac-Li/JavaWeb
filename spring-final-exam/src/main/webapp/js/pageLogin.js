@@ -7,6 +7,7 @@
 	var password = loginForm['password'];
 	var isSubmiting = false;
 	var loading = new Loading();
+	
 	var page = {
 		init:function(){
 			loginForm.addEventListener('submit',function(e){
@@ -15,12 +16,13 @@
 					var value2 = md5(password.value);
 					isSubmiting = true;
 					loading.show();
+
 					ajax({
 						data:{userName:value1,password:value2},
-						url:'/api/login',
+						url:'/springfinalexam/postlogin',
 						success:function(result){
 							loading.hide();
-							location.href = '/';
+							location.href = '/springfinalexam/';
 						},
 						error:function(message){
 							loading.result(message||'登录失败');

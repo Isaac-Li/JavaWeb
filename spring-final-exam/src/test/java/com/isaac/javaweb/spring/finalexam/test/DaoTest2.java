@@ -15,7 +15,9 @@ public class DaoTest2 {
 			
 		IPerson person=(IPerson)context.getBean("personInfo", IPersonImpl.class);
 		
-		User user=person.getUserInfo("buyer");
+		User user=new User();
+		user.setUserName("buyer");
+		user=person.getUserInfo(user);
 		System.out.println(user.getPassword());
 		System.out.println(user.getUserType());
 			
