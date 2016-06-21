@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.servlet.ModelAndView;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.service.IPerson;
@@ -63,6 +63,26 @@ public class LoginController {
 		HttpSession session =request.getSession();		
 		session.setAttribute("password", request.getParameter("password"));
 
+	}
+	
+	@RequestMapping(value="/logout")
+	public String LogoutAndshowHomePage(HttpServletRequest request, HttpServletResponse response){
+
+		//create user name cookie
+		Cookie usernameCookie=new Cookie("userName",request.getParameter("userName"));	
+		usernameCookie.setMaxAge(0);
+		response.addCookie(usernameCookie);
+		
+		//get session
+		HttpSession session =request.getSession(false);		
+						
+		if(session!=null){
+			session.invalidate();
+		}
+		
+		request.setAttribute("type", 0);
+		
+		return "forward:/";
 	}
 	
 	

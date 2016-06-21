@@ -6,14 +6,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.service.IPerson;
 
 @Controller
+@SessionAttributes("loginuser")
 public class HomeController {
 	@Autowired
 	IPerson person;
@@ -21,7 +23,7 @@ public class HomeController {
 	private Boolean isFirstLogin=true;
 
 	@RequestMapping (value={"/","/home"})	
-	public ModelAndView showHomePage(HttpServletRequest request){
+	public ModelAndView showHomePage(HttpServletRequest request, Model model){
 		ModelAndView md=new ModelAndView();		
 		md.setViewName("index");
 		
@@ -47,6 +49,7 @@ public class HomeController {
 			return md;
 		}
 		
+		model.addAttribute("loginuser", user);
 		md.addObject(user);
 		
 		request.setAttribute("type", 0);
@@ -106,7 +109,6 @@ public class HomeController {
 		user.setUserName(usernameFromCookie);
 		user.setPassword(userpasswordFromsession);
 		isFirstLogin=false;
-		System.out.println(user.getUserName()+" "+user.getPassword());
 		
 		return user;
 		

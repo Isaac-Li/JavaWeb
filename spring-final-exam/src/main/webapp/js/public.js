@@ -26,7 +26,7 @@
 				}.bind(this),false);
 			}.bind(this));
 			image.addEventListener('input',function(e){
-				var value = image.value.trim();
+				var value = image.value.trim();				
 				if(value != '' && /^(http|https):\/\//.test(value) && /\.(jpg|gif|png)$/.test(value)){
 					imgpre.src = value;
 				}
