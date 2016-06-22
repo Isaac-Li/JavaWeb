@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 
 import com.isaac.javaweb.spring.finalexam.dao.IPersonDao;
 import com.isaac.javaweb.spring.finalexam.meta.User;
-import com.isaac.javaweb.spring.finalexam.service.IPerson;
+import com.isaac.javaweb.spring.finalexam.service.IPersonService;
 
 @Component("personInfo")
-public class IPersonImpl implements IPerson {
+public class PersonServiceImpl implements IPersonService {
 
 	@Autowired
 	IPersonDao personDao;

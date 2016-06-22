@@ -1,14 +1,13 @@
 package com.isaac.javaweb.spring.finalexam.meta;
 
-import java.sql.Blob;
 
-public class Content {
+public class Product {
 	private Integer contentid;
 	private Integer price;
 	private String title;
-	private Blob icon;
+	private byte[] icon;
 	private String brief;
-	private Blob text;
+	private byte[] text;
 	
 	
 	public Integer getContentid() {
@@ -29,24 +28,26 @@ public class Content {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Blob getIcon() {
-		return icon;
-	}
-	public void setIcon(Blob icon) {
-		this.icon = icon;
-	}
+	
 	public String getBrief() {
 		return brief;
 	}
 	public void setBrief(String brief) {
 		this.brief = brief;
 	}
-	public Blob getText() {
+	public byte[] getIcon() {
+		return icon;
+	}
+	public void setIcon(byte[] icon) {
+		this.icon = icon;
+	}
+	public byte[] getText() {
 		return text;
 	}
-	public void setText(Blob text) {
+	public void setText(byte[] text) {
 		this.text = text;
 	}
+	
 	
 	
 

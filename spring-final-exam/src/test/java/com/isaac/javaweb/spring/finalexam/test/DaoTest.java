@@ -1,5 +1,6 @@
 package com.isaac.javaweb.spring.finalexam.test;
 
+
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -12,10 +13,10 @@ import org.springframework.context.ApplicationContext;
 
 import com.isaac.javaweb.spring.finalexam.dao.IContentDao;
 import com.isaac.javaweb.spring.finalexam.dao.IPersonDao;
-import com.isaac.javaweb.spring.finalexam.meta.Content;
 import com.isaac.javaweb.spring.finalexam.meta.User;
-import com.isaac.javaweb.spring.finalexam.service.IPerson;
-import com.isaac.javaweb.spring.finalexam.service.impl.IPersonImpl;
+import com.isaac.javaweb.spring.finalexam.service.IPersonService;
+import com.isaac.javaweb.spring.finalexam.service.impl.PersonServiceImpl;
+
 
 @ContextConfiguration(locations = "classpath:application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +34,7 @@ public class DaoTest {
 	
 	@Test
 	public void ServiceTest1(){
-		IPerson person=(IPerson)ctx.getBean("personInfo", IPersonImpl.class);
+		IPersonService person=(IPersonService)ctx.getBean("personInfo", PersonServiceImpl.class);
 		User user=new User();
 		user.setUserName("buyer");
 		user=person.getUserInfo(user);
@@ -71,10 +72,5 @@ public class DaoTest {
 		Assert.assertEquals("buyer's type", 1, user.getUserType().intValue());
 	}
 	
-	//get context information
-	@Test
-	public void ContentDaoTest1(){
-		Content content=contentDao.getAllContentInfoFromDao();
-		Assert.assertNull(content);
-	}
+
 }

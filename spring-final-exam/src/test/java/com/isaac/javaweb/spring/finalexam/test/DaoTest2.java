@@ -5,15 +5,16 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
-import com.isaac.javaweb.spring.finalexam.service.IPerson;
-import com.isaac.javaweb.spring.finalexam.service.impl.IPersonImpl;
+import com.isaac.javaweb.spring.finalexam.service.IPersonService;
+import com.isaac.javaweb.spring.finalexam.service.impl.PersonServiceImpl;
+
 
 
 public class DaoTest2 {
 	public static void main(String[] args) {
 		ApplicationContext context= new ClassPathXmlApplicationContext("application-context.xml");
 			
-		IPerson person=(IPerson)context.getBean("personInfo", IPersonImpl.class);
+		IPersonService person=(IPersonService)context.getBean("personInfo", PersonServiceImpl.class);
 		
 		User user=new User();
 		user.setUserName("buyer");
