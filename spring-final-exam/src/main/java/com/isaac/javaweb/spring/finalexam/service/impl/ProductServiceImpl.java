@@ -24,5 +24,10 @@ public class ProductServiceImpl implements IProductService {
 	public void addContent(Product product) {
 		contentDao.addContent(product);
 	}
+	
+	@Override
+	public Product getContentInfo(Product product){		
+		return contentDao.getContentInfoFromDao(product);
+	}
 
 }

@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.isaac.javaweb.spring.finalexam.dao.IContentDao;
 import com.isaac.javaweb.spring.finalexam.dao.IPersonDao;
+import com.isaac.javaweb.spring.finalexam.meta.Product;
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.service.IPersonService;
 import com.isaac.javaweb.spring.finalexam.service.impl.PersonServiceImpl;
@@ -72,5 +73,17 @@ public class DaoTest {
 		Assert.assertEquals("buyer's type", 1, user.getUserType().intValue());
 	}
 	
+	
+	@Test
+	public void contentDaoTest1(){
+		Product product=new Product();
+		product.setContentid(28);
+		product=contentDao.getContentInfoFromDao(product);
+		byte[] contents=product.getIcon();
+
+		System.out.println(contents.length+" :"+new String(contents));
+		System.out.println(product.getText().toString());
+		System.out.println(product.getBrief().toString());
+	}
 
 }

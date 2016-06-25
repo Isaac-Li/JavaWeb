@@ -18,4 +18,8 @@ public interface IContentDao {
 			+ "values (#{price}, #{title}, #{brief}, #{icon,jdbcType=BLOB}, #{text,jdbcType=BLOB} ) " )
 	@SelectKey (statement="SELECT LAST_INSERT_ID() as id",keyProperty="contentid", keyColumn = "id", before=false, resultType=int.class)
 	public void addContent(Product product);
+	
+	@Select ("Select id as contentid, price, title, icon, abstract as brief, text from content"
+			+ " where id=#{contentid} ")
+	public Product getContentInfoFromDao(Product product);
 }

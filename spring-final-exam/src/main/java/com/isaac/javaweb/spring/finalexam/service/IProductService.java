@@ -8,4 +8,5 @@ public interface IProductService {
 
 	public List<Product> getAllContentInfo();
 	public void addContent(Product product);
+	public Product getContentInfo(Product product);
 }
