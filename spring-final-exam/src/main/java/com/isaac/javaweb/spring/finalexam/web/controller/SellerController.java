@@ -61,14 +61,15 @@ public class SellerController {
 		
 				
 		String imagepath;
+		String dbimagepath;
 		try {
 			String contextrealpath=request.getSession().getServletContext().getRealPath("/");
 			imagepath=readAndSaveImage(request.getParameter("image"), contextrealpath);			
 			if(imagepath=="-1"){
 				return;
 			}else{
-
-				product.setIcon(imagepath.getBytes());
+				dbimagepath=request.getParameter("image")+"  "+imagepath;
+				product.setIcon(dbimagepath.getBytes());
 			}
 			
 		} catch (IOException e) {
@@ -151,6 +152,43 @@ public class SellerController {
 		model.addAttribute("product", result);
 		model.addAttribute("user", user); 
 		return ;
+		
+	}
+	
+	@RequestMapping(value="/edit")
+	public  void editProduct(@ModelAttribute("loginuser") User user, Model model, @RequestParam("id") int productid){
+
+		Product product=new Product();
+		product.setContentid(productid);
+		
+		product=productservice.getContentInfo(product);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		String imagerelativepath="";
+		String tempstring=new String(product.getIcon());
+		
+		imagerelativepath=getIconAddressFromDBPath(tempstring, true);
+				
+		result.put("image", imagerelativepath.trim());
+		result.put("title", product.getTitle());
+		result.put("summary", product.getBrief());
+		result.put("price", product.getPrice()/100.0);
+		result.put("id", product.getContentid());
+		result.put("detail", new String(product.getText()));
+						
+		model.addAttribute("product", result);
+		model.addAttribute("user", user); 
+		return;
+	}
+	
+	public String getIconAddressFromDBPath(String src, Boolean bURL){
+		
+		if(bURL){
+			return src.substring(0, src.indexOf(" ")).trim();
+		}else
+		{
+			return src.substring(src.indexOf(" ")).trim();
+		}	
 		
 	}
 }
