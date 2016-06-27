@@ -22,12 +22,17 @@ public class ProductServiceImpl implements IProductService {
 
 	@Override
 	public void addContent(Product product) {
-		contentDao.addContent(product);
+		contentDao.addContentFromDao(product);
 	}
 	
 	@Override
 	public Product getContentInfo(Product product){		
 		return contentDao.getContentInfoFromDao(product);
+	}
+	
+	@Override
+	public int updateContent(Product product){	
+		return contentDao.updateContentFromDao(product);
 	}
 
 }

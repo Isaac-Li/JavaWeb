@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -37,16 +37,11 @@ public class HomeController {
 	
   
 	@RequestMapping (value={"/","/home"})	
-	public ModelAndView showHomePage(HttpServletRequest request, Model model){
+	public ModelAndView showHomePage(HttpServletRequest request, Model model, @RequestParam(value="type",required=false) String type){
 		ModelAndView md=new ModelAndView();		
 		md.setViewName("index");
 		
-		//get all product
-		List<ProductForWeb> productList=getAllProductList();
-		if(productList!=null){
-			md.addObject("productList", productList);
-		}
-		
+
 		User userFromCookie=CheckFirstLogin(request);
 		
 		//get user information from database
@@ -64,8 +59,21 @@ public class HomeController {
 			md.addObject(user);
 		}
 		
-
-		request.setAttribute("type", 0);
+		//parameter type is used for display products, if type==1, while only display the products which are not sold
+		//must return number, because index.ftl compare number 
+		if(type!=null){
+			request.setAttribute("type", 1);			
+		}else
+		{
+			request.setAttribute("type", 0);
+		}
+		
+		//get all product
+		List<ProductForWeb> productList=getAllProductList();
+		if(productList!=null){
+			md.addObject("productList", productList);
+		}
+		
 		
 		return md;
 	}

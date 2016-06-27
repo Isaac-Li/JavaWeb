@@ -143,7 +143,7 @@ public class SellerController {
 		imagerelativepath=tempstring.substring(tempstring.lastIndexOf("/"));
 		
 				
-		result.put("image", imagerelativepath);
+		result.put("image", imagerelativepath.trim());
 		result.put("title", product.getTitle());
 		result.put("summary", product.getBrief());
 		result.put("price", product.getPrice()/100.0);
@@ -187,6 +187,56 @@ public class SellerController {
 			model.addAttribute("user", (User)map.get("loginuser"));
 		}
 		
+		return;
+	}
+	
+	@RequestMapping(value="/editSubmit")
+	public  void editSubmitProduct(ModelMap map, Model model, @RequestParam("id") int productid, HttpServletRequest request){
+		if(map.containsAttribute("loginuser")){
+			model.addAttribute("user", (User)map.get("loginuser"));
+		}
+		
+		
+		//create product instance, and set property.
+		Product product=new Product();
+		product.setContentid(productid);
+		product.setTitle(request.getParameter("title"));
+		
+		Double doublePrice=new Double(request.getParameter("price"));
+		doublePrice=doublePrice*100;
+		
+		product.setPrice(doublePrice.intValue());
+		product.setBrief(request.getParameter("summary"));
+		product.setText(request.getParameter("detail").getBytes());
+		
+				
+		String imagepath;
+		String dbimagepath;
+		try {
+			String contextrealpath=request.getSession().getServletContext().getRealPath("/");
+			imagepath=readAndSaveImage(request.getParameter("image"), contextrealpath);			
+			if(imagepath=="-1"){
+				return;
+			}else{
+				dbimagepath=request.getParameter("image")+"  "+imagepath;
+				product.setIcon(dbimagepath.getBytes());
+			}
+			
+		} catch (IOException e) {
+			System.out.println("IOException");
+			System.out.println(e.getMessage());
+			return;
+
+		}
+							
+		int result=productservice.updateContent(product);		
+		if(result>0){
+			model.addAttribute("product", product);
+		}else
+		{
+			model.addAttribute("productId", productid);
+		}
+				
 		return;
 	}
 	

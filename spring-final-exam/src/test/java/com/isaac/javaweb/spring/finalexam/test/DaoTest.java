@@ -77,13 +77,29 @@ public class DaoTest {
 	@Test
 	public void contentDaoTest1(){
 		Product product=new Product();
-		product.setContentid(28);
+		product.setContentid(60);
 		product=contentDao.getContentInfoFromDao(product);
 		byte[] contents=product.getIcon();
 
 		System.out.println(contents.length+" :"+new String(contents));
 		System.out.println(product.getText().toString());
 		System.out.println(product.getBrief().toString());
+	}
+	
+	@Test
+	public void contentDaoTest2(){
+		Product product=new Product();
+		product.setContentid(60);
+		product=contentDao.getContentInfoFromDao(product);
+		
+		int iprice=product.getPrice()+100;
+		System.out.println(product.getPrice().toString());
+		product.setPrice(iprice);
+		contentDao.updateContentFromDao(product);		
+		
+		System.out.println(product.getText().toString());
+		System.out.println(product.getBrief().toString());
+		System.out.println(product.getPrice().toString());
 	}
 
 }
