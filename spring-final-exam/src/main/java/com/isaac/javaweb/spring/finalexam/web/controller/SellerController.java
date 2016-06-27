@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,8 +130,8 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value="/show")
-	public  void showProduct(@ModelAttribute("loginuser") User user, Model model, @RequestParam("id") int productid){
-
+	public  void showProduct(ModelMap map,Model model, @RequestParam("id") int productid){
+		
 		Product product=new Product();
 		product.setContentid(productid);
 		
@@ -150,14 +151,18 @@ public class SellerController {
 		result.put("detail", new String(product.getText()));
 						
 		model.addAttribute("product", result);
-		model.addAttribute("user", user); 
+		
+		if(map.containsAttribute("loginuser")){
+			model.addAttribute("user", (User)map.get("loginuser"));
+		}
+		
 		return ;
 		
 	}
 	
 	@RequestMapping(value="/edit")
-	public  void editProduct(@ModelAttribute("loginuser") User user, Model model, @RequestParam("id") int productid){
-
+	public  void editProduct(ModelMap map, Model model, @RequestParam("id") int productid){
+		
 		Product product=new Product();
 		product.setContentid(productid);
 		
@@ -177,7 +182,11 @@ public class SellerController {
 		result.put("detail", new String(product.getText()));
 						
 		model.addAttribute("product", result);
-		model.addAttribute("user", user); 
+		
+		if(map.containsAttribute("loginuser")){
+			model.addAttribute("user", (User)map.get("loginuser"));
+		}
+		
 		return;
 	}
 	

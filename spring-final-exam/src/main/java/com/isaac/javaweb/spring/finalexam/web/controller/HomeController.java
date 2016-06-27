@@ -1,5 +1,8 @@
 package com.isaac.javaweb.spring.finalexam.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,13 +11,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
+import com.isaac.javaweb.spring.finalexam.meta.Product;
+import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
 import com.isaac.javaweb.spring.finalexam.service.IPersonService;
+import com.isaac.javaweb.spring.finalexam.service.IProductService;
 
 @Controller
 @SessionAttributes("loginuser")
@@ -22,23 +30,28 @@ public class HomeController {
 	@Autowired
 	private IPersonService person;
 	
+	@Autowired
+	private IProductService productservice;
+	
 	private Boolean isFirstLogin=true;
-
+	
+  
 	@RequestMapping (value={"/","/home"})	
 	public ModelAndView showHomePage(HttpServletRequest request, Model model){
 		ModelAndView md=new ModelAndView();		
 		md.setViewName("index");
+		
+		//get all product
+		List<ProductForWeb> productList=getAllProductList();
+		if(productList!=null){
+			md.addObject("productList", productList);
+		}
 		
 		User userFromCookie=CheckFirstLogin(request);
 		
 		//get user information from database
 		User user=person.getUserInfo(userFromCookie);
 
-//		if(user!=null){
-//			System.out.println(user.getUserName()+" "+user.getUserType()+ " "+user.getPassword());
-//			System.out.println(userFromCookie.getPassword());
-//			System.out.println(isFirstLogin);
-//		}
 
 		if(user==null || !user.getPassword().equals(userFromCookie.getPassword()))
 		{
@@ -46,30 +59,17 @@ public class HomeController {
 		}
 		
 
-		if(isFirstLogin){
-			request.setAttribute("type", 0);			
-			return md;
+		if(!isFirstLogin){
+			model.addAttribute("loginuser", user);
+			md.addObject(user);
 		}
 		
-		model.addAttribute("loginuser", user);
-		md.addObject(user);
-		
+
 		request.setAttribute("type", 0);
 		
 		return md;
 	}
 	
-	@RequestMapping (value={"/test"})	
-	public ModelAndView showHomePage1(HttpServletRequest request){
-		request.setAttribute("type", 0);
-		ModelAndView md=new ModelAndView();
-		md.setViewName("index");
-		User user=new User();
-		user.setUserName("test");
-		user.setUserType(0);
-		md.addObject(user);
-		return md;
-	}
 	
 	public User CheckFirstLogin(HttpServletRequest request){
 		User user=new User();
@@ -139,6 +139,9 @@ public class HomeController {
 		
 		
 		setCookieAndSession(request, response);
+		model.addAttribute("loginuser", person.getUserInfo(user));
+		
+		//for pageLogin.js used
 		model.addAttribute("items", person.getUserInfo(user));  
 		model.addAttribute("code", 200);
 		return model;
@@ -159,7 +162,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/logout")
-	public String LogoutAndshowHomePage(HttpServletRequest request, HttpServletResponse response){
+	public String LogoutAndshowHomePage(HttpServletRequest request, HttpServletResponse response, SessionStatus sessionstatus){
 
 		//create user name cookie
 		Cookie usernameCookie=new Cookie("userName",request.getParameter("userName"));	
@@ -170,7 +173,8 @@ public class HomeController {
 		HttpSession session =request.getSession(false);		
 						
 		if(session!=null){
-			session.invalidate();
+			sessionstatus.setComplete();
+			session.invalidate();			
 		}
 		
 		request.setAttribute("type", 0);
@@ -178,4 +182,26 @@ public class HomeController {
 		return "login";
 	}
 	
+	
+	public List<ProductForWeb> getAllProductList(){
+		List<Product> productlist=productservice.getAllContentInfo();
+		List<ProductForWeb> productforweblist=new ArrayList<ProductForWeb>();
+		
+		for(Product product:productlist){
+			ProductForWeb proforweb=new ProductForWeb();
+			proforweb.setBrief(product.getBrief());
+			proforweb.setId(product.getContentid());
+			
+			String tempstring=new String(product.getIcon());		
+			proforweb.setImage(tempstring.substring(tempstring.lastIndexOf("/")).trim());			
+			
+			proforweb.setPrice(product.getPrice()/100.0);
+			proforweb.setText( new String(product.getText()));
+			proforweb.setTitle(product.getTitle());
+			productforweblist.add(proforweb);
+		}
+		
+		return productforweblist;
+		
+	}
 }
