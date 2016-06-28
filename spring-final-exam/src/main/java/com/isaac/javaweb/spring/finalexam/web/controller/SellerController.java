@@ -111,7 +111,7 @@ public class SellerController {
 		//save image to local folder
 		Date now=new Date();
 		SimpleDateFormat dateformat= new SimpleDateFormat("yy-MM-dd-hh-mm-ss");
-		String newfilename=realpath+"img/"+dateformat.format(now)+fileextensionname;		
+		String newfilename=realpath+"image/"+dateformat.format(now)+fileextensionname;		
 		
 		FileOutputStream fileout=new FileOutputStream(newfilename);
 				
@@ -149,7 +149,10 @@ public class SellerController {
 		result.put("price", product.getPrice()/100.0);
 		result.put("id", product.getContentid());
 		result.put("detail", new String(product.getText()));
-						
+		
+		//////////////  buyNum  需要处理！！！！！
+		result.put("buyNum", 0);
+		
 		model.addAttribute("product", result);
 		
 		if(map.containsAttribute("loginuser")){

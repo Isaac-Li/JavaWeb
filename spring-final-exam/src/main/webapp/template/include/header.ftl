@@ -11,6 +11,7 @@
             <li><a href="${base}/">首页</a></li>
             <#if user?? && user.userType==0>
             <li><a href="${base}/account">账务</a></li>
+            <li><a href="${base}/settleAccount">购物车</a></li>
             </#if>
             <#if user?? && user.userType==1>
             <li><a href="${base}/public">发布</a></li>

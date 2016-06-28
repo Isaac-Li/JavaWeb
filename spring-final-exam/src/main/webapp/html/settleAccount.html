@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
-<div class="n-support">h请使用Chrome、Safari等webkit内核的浏览器！</div>
 <div class="n-head">
     <div class="g-doc f-cb">
         <div class="user">
@@ -15,14 +14,15 @@
         </div>
         <ul class="nav">
             <li><a href="./index.html">首页</a></li>
-            <li><a href="./account.html">账务</a></li>
+            <li><a href="./accout.html">账务</a></li>
             <li><a href="./public.html">发布</a></li>
+            <li><a href="./settleAccount.html">购物车</a></li>
         </ul>
     </div>
 </div>
 <div class="g-doc">
-    <div class="m-tab m-tab-fw m-tab-simple f-cb">
-        <h2>已购买的内容</h2>
+    <div class="m-tab m-tab-fw m-tab-simple f-cb" id="settleAccount">
+        <h2>已添加到购物车的内容</h2>
     </div>
     <table class="m-table m-table-row n-table g-b3">
         <colgroup><col class="img"/><col/><col class="time"/><col class="price"/></colgroup>
@@ -40,8 +40,8 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3"><div class="total">总计：</div></td>
-                <td><span class="v-unit">¥</span><span class="value">123.9</span></td>
+               <td><button class="u-btn u-btn-primary">退出</button></td>
+               <td><button class="u-btn u-btn-primary">购买</button></td>
             </tr>
         </tfoot>
     </table>
@@ -49,5 +49,7 @@
 <div class="n-foot">
     <p>版权所有：网易云课堂<a href="http://mooc.study.163.com/smartSpec/detail/85002.htm">Java开发工程师(Web方向)</a>微专业团队</p>
 </div>
+<script type="text/javascript" src="../js/global.js"></script>
+<script type="text/javascript" src="../js/pageShow.js"></script>
 </body>
 </html>
