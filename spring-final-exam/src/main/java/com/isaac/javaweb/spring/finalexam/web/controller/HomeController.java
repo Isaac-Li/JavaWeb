@@ -69,7 +69,7 @@ public class HomeController {
 		}
 		
 		//get all product
-		List<ProductForWeb> productList=getAllProductList();
+		List<ProductForWeb> productList=getAllProductListForWeb();
 		if(productList!=null){
 			md.addObject("productList", productList);
 		}
@@ -191,22 +191,33 @@ public class HomeController {
 	}
 	
 	
-	public List<ProductForWeb> getAllProductList(){
+	public List<ProductForWeb> getAllProductListForWeb(){
 		List<Product> productlist=productservice.getAllContentInfo();
 		List<ProductForWeb> productforweblist=new ArrayList<ProductForWeb>();
 		
 		for(Product product:productlist){
 			ProductForWeb proforweb=new ProductForWeb();
-			proforweb.setBrief(product.getBrief());
+			proforweb.setSummary(product.getBrief());
 			proforweb.setId(product.getContentid());
 			
 			String tempstring=new String(product.getIcon());		
 			proforweb.setImage(tempstring.substring(tempstring.lastIndexOf("/")).trim());			
 			
 			proforweb.setPrice(product.getPrice()/100.0);
-			proforweb.setText( new String(product.getText()));
+			proforweb.setDetail( new String(product.getText()));
 			proforweb.setTitle(product.getTitle());
+
+			//check transaction, if no transaction, isBuy and isShell will be false.
+			if(product.getTrxes()==null){
+				proforweb.setIsBuy(false);
+				proforweb.setIsSell(false);
+			}else{						
+				proforweb.setIsBuy(true);
+				proforweb.setIsSell(true);
+			}
+			
 			productforweblist.add(proforweb);
+		
 		}
 		
 		return productforweblist;

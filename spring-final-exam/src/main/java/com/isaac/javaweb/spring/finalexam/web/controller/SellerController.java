@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.isaac.javaweb.spring.finalexam.meta.Product;
+import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
 
@@ -137,23 +138,10 @@ public class SellerController {
 		
 		product=productservice.getContentInfo(product);
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		String imagerelativepath="";
-		String tempstring=new String(product.getIcon());
-		imagerelativepath=tempstring.substring(tempstring.lastIndexOf("/"));
+		ProductForWeb productforweb=new ProductForWeb();
+		productforweb=getProductInfoForWeb(product);
 		
-				
-		result.put("image", imagerelativepath.trim());
-		result.put("title", product.getTitle());
-		result.put("summary", product.getBrief());
-		result.put("price", product.getPrice()/100.0);
-		result.put("id", product.getContentid());
-		result.put("detail", new String(product.getText()));
-		
-		//////////////  buyNum  需要处理！！！！！
-		result.put("buyNum", 0);
-		
-		model.addAttribute("product", result);
+		model.addAttribute("product", productforweb);
 		
 		if(map.containsAttribute("loginuser")){
 			model.addAttribute("user", (User)map.get("loginuser"));
@@ -161,6 +149,34 @@ public class SellerController {
 		
 		return ;
 		
+	}
+	
+	public ProductForWeb getProductInfoForWeb(Product product){
+		ProductForWeb productforweb=new ProductForWeb();
+		
+		String imagerelativepath="";
+		String tempstring=new String(product.getIcon());
+		imagerelativepath=tempstring.substring(tempstring.lastIndexOf("/"));
+		
+		productforweb.setImage(imagerelativepath.trim());
+		productforweb.setTitle(product.getTitle());
+		productforweb.setSummary(product.getBrief());
+		productforweb.setPrice(product.getPrice()/100.0);
+		productforweb.setId(product.getContentid());
+		productforweb.setDetail(new String(product.getText()));
+		
+		if(product.getTrxes()==null){
+			productforweb.setIsSell(false);
+			productforweb.setIsBuy(false);
+			productforweb.setBuyNum(0);
+		}else{
+			productforweb.setIsSell(true);
+			productforweb.setIsBuy(true);
+			productforweb.setBuyNum(product.getTrxes().size());
+		}
+		
+
+		return productforweb;
 	}
 	
 	@RequestMapping(value="/edit")

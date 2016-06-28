@@ -5,8 +5,11 @@ public class ProductForWeb {
 	private Double price;
 	private String title;
 	private String image;
-	private String brief;
-	private String text;
+	private String summary;
+	private String detail;
+	private Boolean isBuy;
+	private Boolean isSell;
+	private Integer buyNum;
 
 	
 	
@@ -35,17 +38,37 @@ public class ProductForWeb {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public String getBrief() {
-		return brief;
+	
+	public String getSummary() {
+		return summary;
 	}
-	public void setBrief(String brief) {
-		this.brief = brief;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
-	public String getText() {
-		return text;
+	
+	public String getDetail() {
+		return detail;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+	public Boolean getIsBuy() {
+		return isBuy;
+	}
+	public void setIsBuy(Boolean isBuy) {
+		this.isBuy = isBuy;
+	}
+	public Boolean getIsSell() {
+		return isSell;
+	}
+	public void setIsSell(Boolean isSell) {
+		this.isSell = isSell;
+	}
+	public Integer getBuyNum() {
+		return buyNum;
+	}
+	public void setBuyNum(Integer buyNum) {
+		this.buyNum = buyNum;
 	}
 	
 	

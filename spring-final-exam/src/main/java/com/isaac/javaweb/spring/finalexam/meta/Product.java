@@ -1,5 +1,6 @@
 package com.isaac.javaweb.spring.finalexam.meta;
 
+import java.util.List;
 
 public class Product {
 	private Integer contentid;
@@ -8,8 +9,15 @@ public class Product {
 	private byte[] icon;
 	private String brief;
 	private byte[] text;
+	private List<Trx> trxes;
 	
 	
+	public List<Trx> getTrxes() {
+		return trxes;
+	}
+	public void setTrxes(List<Trx> trxes) {
+		this.trxes = trxes;
+	}
 	public Integer getContentid() {
 		return contentid;
 	}
