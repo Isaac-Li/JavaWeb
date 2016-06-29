@@ -70,7 +70,8 @@ public class SellerController {
 
 		//get image path
 		String dbimagepath=getDBImagePath(request.getParameter("pic"));
-		if (dbimagepath=="-1"){
+
+		if (dbimagepath.equals("-1")){
 			return;
 		}else
 		{
@@ -153,11 +154,13 @@ public class SellerController {
 	public String getDBImagePath(String address){
 		String imagepath;
 		String dbimagepath;
-		if(address=="url"){		
+				
+		if(address.equals("url")){		
 			try {
 				String contextrealpath=request.getSession().getServletContext().getRealPath("/");
-				imagepath=readAndSaveImageFromURL(request.getParameter("image"), contextrealpath);			
-				if(imagepath=="-1"){
+				imagepath=readAndSaveImageFromURL(request.getParameter("image"), contextrealpath);
+								
+				if(imagepath.equals("-1")){
 					return imagepath;
 				}else{
 					dbimagepath=request.getParameter("image")+"  "+imagepath;					 
@@ -170,7 +173,8 @@ public class SellerController {
 			}
 		}else{
 			imagepath=prepareLocalImage(request.getParameter("image"));
-			if(imagepath=="-1"){
+
+			if(imagepath.equals("-1")){
 				return imagepath;
 			}else{
 				dbimagepath=imagepath+"  "+imagepath;				
@@ -205,11 +209,13 @@ public class SellerController {
 		
 		String imagerelativepath="";
 		String tempstring=new String(product.getIcon());
+		Boolean isHttpaddress=tempstring.contains("http");
+
 		
-		if(isEdit){
+		if(isEdit && isHttpaddress){
 			imagerelativepath=tempstring.substring(0, tempstring.indexOf(" ")).trim();
 		}else{
-			imagerelativepath=tempstring.substring(tempstring.lastIndexOf("/"));
+			imagerelativepath=request.getSession().getServletContext().getContextPath()+"/image"+tempstring.substring(tempstring.lastIndexOf("/"));
 		}
 		
 		
@@ -234,6 +240,8 @@ public class SellerController {
 		return productforweb;
 	}
 	
+	
+	//edit
 	@RequestMapping(value="/edit")
 	public  void editProduct(ModelMap map, Model model, @RequestParam("id") int productid){
 		
@@ -247,7 +255,8 @@ public class SellerController {
 		ProductForWeb productforweb=new ProductForWeb();
 		productforweb=getProductInfoForWeb(product, true);
 		
-		model.addAttribute("product", productforweb);		
+		model.addAttribute("product", productforweb);	
+		model.addAttribute("pic", "file");
 		
 		if(map.containsAttribute("loginuser")){
 			model.addAttribute("user", (User)map.get("loginuser"));
@@ -256,6 +265,7 @@ public class SellerController {
 		return;
 	}
 	
+	//editSubmit
 	@RequestMapping(value="/editSubmit")
 	public  void editSubmitProduct(ModelMap map, Model model, @RequestParam("id") int productid){
 		if(map.containsAttribute("loginuser")){
@@ -277,9 +287,9 @@ public class SellerController {
 		
 		
 		/////////////////////////////////////////////////////		
-		//get image path 
+		//get image path 		
 		String dbimagepath=getDBImagePath(request.getParameter("pic"));
-		if (dbimagepath=="-1"){
+		if (dbimagepath.equals("-1")){
 			return;
 		}else
 		{

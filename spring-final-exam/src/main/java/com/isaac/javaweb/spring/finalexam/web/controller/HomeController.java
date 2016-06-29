@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -114,7 +115,7 @@ public class HomeController {
 		}
 		
 		//check usernameFromCookie or userpasswordFromsession which is null or not, if it is empty, return true.
-		if(usernameFromCookie=="" || userpasswordFromsession==""){			
+		if(usernameFromCookie.equals("") || userpasswordFromsession.equals("")){			
 			isFirstLogin=true;
 			user.setUserName("");
 			return user;
@@ -194,7 +195,12 @@ public class HomeController {
 		return "login";
 	}
 	
-	
+	@RequestMapping(value="/settleAccount")
+	public String buyerSettleAccount(@ModelAttribute("loginuser") User user,Model model){
+		model.addAttribute("user", user); 	
+		return "settleAccount";
+	}
+
 	public List<ProductForWeb> getAllProductListForWeb(){
 		List<Product> productlist=productservice.getAllContentInfo();
 		List<ProductForWeb> productforweblist=new ArrayList<ProductForWeb>();

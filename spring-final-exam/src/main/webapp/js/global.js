@@ -186,6 +186,7 @@
 			this.body.style.display = 'none';
 		}
 	};
+	
 
 	w.util = util;
 	w.ajax = ajax;
