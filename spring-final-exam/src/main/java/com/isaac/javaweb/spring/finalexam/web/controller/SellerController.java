@@ -3,6 +3,7 @@ package com.isaac.javaweb.spring.finalexam.web.controller;
 
 
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,8 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +22,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import com.isaac.javaweb.spring.finalexam.meta.Product;
 import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
@@ -40,6 +43,9 @@ public class SellerController {
 	private IProductService productservice;
 
 	
+	@Autowired
+	private HttpServletRequest request;
+	
 	@RequestMapping(value="/public")
 	public String sellerPublic(@ModelAttribute("loginuser") User user, Model model){		
 		model.addAttribute("user", user); 
@@ -47,7 +53,7 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value="/publicSubmit")
-	public void publicSubmit(@ModelAttribute("loginuser") User user,Model model, HttpServletRequest request){
+	public void publicSubmit(@ModelAttribute("loginuser") User user,Model model){
 		model.addAttribute("user", user); 		
 		
 		//create product instance, and set property.
@@ -61,25 +67,16 @@ public class SellerController {
 		product.setBrief(request.getParameter("summary"));
 		product.setText(request.getParameter("detail").getBytes());
 		
-				
-		String imagepath;
-		String dbimagepath;
-		try {
-			String contextrealpath=request.getSession().getServletContext().getRealPath("/");
-			imagepath=readAndSaveImage(request.getParameter("image"), contextrealpath);			
-			if(imagepath=="-1"){
-				return;
-			}else{
-				dbimagepath=request.getParameter("image")+"  "+imagepath;
-				product.setIcon(dbimagepath.getBytes());
-			}
-			
-		} catch (IOException e) {
-			System.out.println("IOException");
-			System.out.println(e.getMessage());
-			return;
 
+		//get image path
+		String dbimagepath=getDBImagePath(request.getParameter("pic"));
+		if (dbimagepath=="-1"){
+			return;
+		}else
+		{
+			product.setIcon(dbimagepath.getBytes());
 		}
+
 					
 		productservice.addContent(product);
 		model.addAttribute("product", product);
@@ -89,7 +86,7 @@ public class SellerController {
 	
 	
 	//read file by using url address
-	public String readAndSaveImage (String urladdress, String realpath) throws IOException{
+	public String readAndSaveImageFromURL (String urladdress, String realpath) throws IOException{
 		
 		URL url=new URL(urladdress);
 		URLConnection conn=url.openConnection();
@@ -130,6 +127,58 @@ public class SellerController {
 		return newfilename;
 	}
 	
+	//this function is working for local image
+	public String prepareLocalImage(String localaddress){
+		String contextrealpath=request.getSession().getServletContext().getRealPath("/");
+		//get file extension name
+		String fileextensionname=localaddress.substring(localaddress.lastIndexOf("."));
+		Date now=new Date();
+		SimpleDateFormat dateformat= new SimpleDateFormat("yy-MM-dd-hh-mm-ss");
+		String newfilename=contextrealpath+"image/"+dateformat.format(now)+fileextensionname;		
+		String srcfilename=contextrealpath+localaddress;
+		
+		File srcfile=new File(srcfilename);
+		File tarfile=new File(newfilename);
+		
+		Boolean bresult=srcfile.renameTo(tarfile);
+		
+		if(bresult){
+			return newfilename;
+		}
+		
+		return "-1";
+	}
+	
+	//get DB image path
+	public String getDBImagePath(String address){
+		String imagepath;
+		String dbimagepath;
+		if(address=="url"){		
+			try {
+				String contextrealpath=request.getSession().getServletContext().getRealPath("/");
+				imagepath=readAndSaveImageFromURL(request.getParameter("image"), contextrealpath);			
+				if(imagepath=="-1"){
+					return imagepath;
+				}else{
+					dbimagepath=request.getParameter("image")+"  "+imagepath;					 
+				}
+				
+			} catch (IOException e) {
+				System.out.println("IOException");
+				System.out.println(e.getMessage());
+				return "-1";
+			}
+		}else{
+			imagepath=prepareLocalImage(request.getParameter("image"));
+			if(imagepath=="-1"){
+				return imagepath;
+			}else{
+				dbimagepath=imagepath+"  "+imagepath;				
+			}
+			
+		}		
+		return dbimagepath;
+	}
 	@RequestMapping(value="/show")
 	public  void showProduct(ModelMap map,Model model, @RequestParam("id") int productid){
 		
@@ -139,7 +188,7 @@ public class SellerController {
 		product=productservice.getContentInfo(product);
 		
 		ProductForWeb productforweb=new ProductForWeb();
-		productforweb=getProductInfoForWeb(product);
+		productforweb=getProductInfoForWeb(product, false);
 		
 		model.addAttribute("product", productforweb);
 		
@@ -151,12 +200,18 @@ public class SellerController {
 		
 	}
 	
-	public ProductForWeb getProductInfoForWeb(Product product){
+	public ProductForWeb getProductInfoForWeb(Product product, Boolean isEdit){
 		ProductForWeb productforweb=new ProductForWeb();
 		
 		String imagerelativepath="";
 		String tempstring=new String(product.getIcon());
-		imagerelativepath=tempstring.substring(tempstring.lastIndexOf("/"));
+		
+		if(isEdit){
+			imagerelativepath=tempstring.substring(0, tempstring.indexOf(" ")).trim();
+		}else{
+			imagerelativepath=tempstring.substring(tempstring.lastIndexOf("/"));
+		}
+		
 		
 		productforweb.setImage(imagerelativepath.trim());
 		productforweb.setTitle(product.getTitle());
@@ -187,20 +242,12 @@ public class SellerController {
 		
 		product=productservice.getContentInfo(product);
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		String imagerelativepath="";
-		String tempstring=new String(product.getIcon());
+		product=productservice.getContentInfo(product);
 		
-		imagerelativepath=getIconAddressFromDBPath(tempstring, true);
-				
-		result.put("image", imagerelativepath.trim());
-		result.put("title", product.getTitle());
-		result.put("summary", product.getBrief());
-		result.put("price", product.getPrice()/100.0);
-		result.put("id", product.getContentid());
-		result.put("detail", new String(product.getText()));
-						
-		model.addAttribute("product", result);
+		ProductForWeb productforweb=new ProductForWeb();
+		productforweb=getProductInfoForWeb(product, true);
+		
+		model.addAttribute("product", productforweb);		
 		
 		if(map.containsAttribute("loginuser")){
 			model.addAttribute("user", (User)map.get("loginuser"));
@@ -210,7 +257,7 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value="/editSubmit")
-	public  void editSubmitProduct(ModelMap map, Model model, @RequestParam("id") int productid, HttpServletRequest request){
+	public  void editSubmitProduct(ModelMap map, Model model, @RequestParam("id") int productid){
 		if(map.containsAttribute("loginuser")){
 			model.addAttribute("user", (User)map.get("loginuser"));
 		}
@@ -228,25 +275,17 @@ public class SellerController {
 		product.setBrief(request.getParameter("summary"));
 		product.setText(request.getParameter("detail").getBytes());
 		
-				
-		String imagepath;
-		String dbimagepath;
-		try {
-			String contextrealpath=request.getSession().getServletContext().getRealPath("/");
-			imagepath=readAndSaveImage(request.getParameter("image"), contextrealpath);			
-			if(imagepath=="-1"){
-				return;
-			}else{
-				dbimagepath=request.getParameter("image")+"  "+imagepath;
-				product.setIcon(dbimagepath.getBytes());
-			}
-			
-		} catch (IOException e) {
-			System.out.println("IOException");
-			System.out.println(e.getMessage());
+		
+		/////////////////////////////////////////////////////		
+		//get image path 
+		String dbimagepath=getDBImagePath(request.getParameter("pic"));
+		if (dbimagepath=="-1"){
 			return;
-
+		}else
+		{
+			product.setIcon(dbimagepath.getBytes());
 		}
+		
 							
 		int result=productservice.updateContent(product);		
 		if(result>0){
@@ -259,14 +298,24 @@ public class SellerController {
 		return;
 	}
 	
-	public String getIconAddressFromDBPath(String src, Boolean bURL){
-		
-		if(bURL){
-			return src.substring(0, src.indexOf(" ")).trim();
-		}else
-		{
-			return src.substring(src.indexOf(" ")).trim();
-		}	
-		
+
+	@RequestMapping(value="/upload")
+	public  @ResponseBody Object uploadFile(@RequestParam("file") MultipartFile file,  Model model){
+		 if (!file.isEmpty()) {  
+	            try {  
+  
+	                String filePath = request.getSession().getServletContext().getRealPath("/") + "image/"  
+	                        + file.getOriginalFilename();               	                
+	                file.transferTo(new File(filePath));  
+	                
+	            } catch (Exception e) {  
+	                e.printStackTrace();  
+	            }  
+	            String imagpath="image/"+file.getOriginalFilename();	            
+	            model.addAttribute("result", imagpath);  ;
+	        }  
+		 
+		 return model;
 	}
+		
 }

@@ -33,16 +33,20 @@ public class HomeController {
 	@Autowired
 	private IProductService productservice;
 	
+	
+	@Autowired
+	private HttpServletRequest request;
+	
 	private Boolean isFirstLogin=true;
 	
   
 	@RequestMapping (value={"/","/home"})	
-	public ModelAndView showHomePage(HttpServletRequest request, Model model, @RequestParam(value="type",required=false) String type){
+	public ModelAndView showHomePage(Model model, @RequestParam(value="type",required=false) String type){
 		ModelAndView md=new ModelAndView();		
 		md.setViewName("index");
 		
 
-		User userFromCookie=CheckFirstLogin(request);
+		User userFromCookie=CheckFirstLogin();
 		
 		//get user information from database
 		User user=person.getUserInfo(userFromCookie);
@@ -79,7 +83,7 @@ public class HomeController {
 	}
 	
 	
-	public User CheckFirstLogin(HttpServletRequest request){
+	public User CheckFirstLogin(){
 		User user=new User();
 		String usernameFromCookie="";		
 		
@@ -130,7 +134,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/postlogin")
-	public @ResponseBody Object PostLogin(HttpServletRequest request,HttpServletResponse response, Model model){
+	public @ResponseBody Object PostLogin(HttpServletResponse response, Model model){
 		
 		User user=new User();
 		user.setUserName(request.getParameter("userName"));
@@ -146,7 +150,7 @@ public class HomeController {
 		}
 		
 		
-		setCookieAndSession(request, response);
+		setCookieAndSession(response);
 		model.addAttribute("loginuser", person.getUserInfo(user));
 		
 		//for pageLogin.js used
@@ -157,7 +161,7 @@ public class HomeController {
 	}
 	
 	//if success login, set useName cookie, and password session.
-	public void setCookieAndSession(HttpServletRequest request, HttpServletResponse response){
+	public void setCookieAndSession(HttpServletResponse response){
 		//create user name cookie
 		Cookie usernameCookie=new Cookie("userName",request.getParameter("userName"));	
 		usernameCookie.setMaxAge(60*30);
@@ -170,7 +174,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/logout")
-	public String LogoutAndshowHomePage(HttpServletRequest request, HttpServletResponse response, SessionStatus sessionstatus){
+	public String LogoutAndshowHomePage(HttpServletResponse response, SessionStatus sessionstatus){
 
 		//create user name cookie
 		Cookie usernameCookie=new Cookie("userName",request.getParameter("userName"));	
