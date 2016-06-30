@@ -1,6 +1,7 @@
 package com.isaac.javaweb.spring.finalexam.web.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.meta.Product;
+import com.isaac.javaweb.spring.finalexam.meta.ProductByBuyer;
 import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
+import com.isaac.javaweb.spring.finalexam.meta.Trx;
 import com.isaac.javaweb.spring.finalexam.service.IPersonService;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
 
@@ -33,14 +37,13 @@ public class HomeController {
 	
 	@Autowired
 	private IProductService productservice;
-	
-	
+		
 	@Autowired
 	private HttpServletRequest request;
 	
 	private Boolean isFirstLogin=true;
 	
-  
+    //home page
 	@RequestMapping (value={"/","/home"})	
 	public ModelAndView showHomePage(Model model, @RequestParam(value="type",required=false) String type){
 		ModelAndView md=new ModelAndView();		
@@ -66,20 +69,34 @@ public class HomeController {
 		
 		//parameter type is used for display products, if type==1, while only display the products which are not sold
 		//must return number, because index.ftl compare number 
-		if(type!=null){
-			request.setAttribute("type", 1);			
-		}else
-		{
-			request.setAttribute("type", 0);
-		}
 		
 		//get all product
 		List<ProductForWeb> productList=getAllProductListForWeb();
-		if(productList!=null){
-			md.addObject("productList", productList);
+		
+		
+		if(type!=null){
+			request.setAttribute("type", 1);
+			if(productList!=null){
+				List<ProductForWeb> nosaleproductList=new ArrayList<ProductForWeb>();
+				
+				for(ProductForWeb product1:productList){
+					if(!product1.getIsBuy()){
+						nosaleproductList.add(product1);
+						System.out.println(product1.getId());
+					}
+				}
+				
+				md.addObject("productList", nosaleproductList);
+			}
+		}else
+		{
+			if(productList!=null){
+				md.addObject("productList", productList);
+			}
+			request.setAttribute("type", 0);
 		}
 		
-		
+
 		return md;
 	}
 	
@@ -233,4 +250,6 @@ public class HomeController {
 		return productforweblist;
 		
 	}
+
+
 }

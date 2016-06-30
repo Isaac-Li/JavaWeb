@@ -5,7 +5,7 @@ public class Trx {
 	private Integer contentId;
 	private Integer personId;
 	private Integer price;
-	private Integer time;
+	private Long time;
 	
 	
 	public Integer getTrxid() {
@@ -32,10 +32,10 @@ public class Trx {
 	public void setPrice(Integer price) {
 		this.price = price;
 	}
-	public Integer getTime() {
+	public Long getTime() {
 		return time;
 	}
-	public void setTime(Integer time) {
+	public void setTime(Long time) {
 		this.time = time;
 	}
 	
