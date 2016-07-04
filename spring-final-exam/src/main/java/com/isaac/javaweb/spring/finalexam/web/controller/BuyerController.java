@@ -36,7 +36,7 @@ public class BuyerController {
 		Product product=new Product();
 		
 		for(ProductByBuyer productinsettle: productinsettlelist){
-			buyertrx.setContentId(productinsettle.getId());
+			buyertrx.setTrxcontentId(productinsettle.getId());
 			buyertrx.setPersonId(user.getUserid());
 		
 			product.setContentid(productinsettle.getId());
@@ -45,7 +45,11 @@ public class BuyerController {
 			Date date=new Date();
 			buyertrx.setTime(date.getTime());	
 			
-			trxservice.addTrx(buyertrx);
+			for(int i=0; i<productinsettle.getNumber();i++){
+				trxservice.addTrx(buyertrx);
+			}
 		}
+		
+		model.addAttribute("code", 200);
 	}
 }

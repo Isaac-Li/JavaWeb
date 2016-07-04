@@ -2,7 +2,7 @@ package com.isaac.javaweb.spring.finalexam.meta;
 
 public class Trx {
 	private Integer trxid;
-	private Integer contentId;
+	private Integer trxcontentId;
 	private Integer personId;
 	private Integer price;
 	private Long time;
@@ -14,11 +14,12 @@ public class Trx {
 	public void setTrxid(Integer trxid) {
 		this.trxid = trxid;
 	}
-	public Integer getContentId() {
-		return contentId;
+	
+	public Integer getTrxcontentId() {
+		return trxcontentId;
 	}
-	public void setContentId(Integer contentId) {
-		this.contentId = contentId;
+	public void setTrxcontentId(Integer trxcontentId) {
+		this.trxcontentId = trxcontentId;
 	}
 	public Integer getPersonId() {
 		return personId;

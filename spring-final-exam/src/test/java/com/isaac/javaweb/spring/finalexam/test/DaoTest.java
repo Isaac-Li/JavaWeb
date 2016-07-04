@@ -1,6 +1,8 @@
 package com.isaac.javaweb.spring.finalexam.test;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Assert;
@@ -74,32 +76,51 @@ public class DaoTest {
 	}
 	
 	
-	@Test
-	public void contentDaoTest1(){
-		Product product=new Product();
-		product.setContentid(60);
-		product=contentDao.getContentInfoFromDao(product);
-		byte[] contents=product.getIcon();
-
-		System.out.println(contents.length+" :"+new String(contents));
-		System.out.println(product.getText().toString());
-		System.out.println(product.getBrief().toString());
-	}
+//	@Test
+//	public void contentDaoTest1(){
+//		Product product=new Product();
+//		product.setId(72);
+//		product=contentDao.getContentInfoFromDao(product);
+//		byte[] contents=product.getIcon();
+//
+//		System.out.println(contents.length+" :"+new String(contents));
+//		System.out.println(product.getText().toString());
+//		System.out.println(product.getBrief().toString());
+//	}
 	
 	@Test
 	public void contentDaoTest2(){
 		Product product=new Product();
-		product.setContentid(60);
+		product.setContentid(72);
 		product=contentDao.getContentInfoFromDao(product);
 		
-		int iprice=product.getPrice()+100;
-		System.out.println(product.getPrice().toString());
+		int iprice=product.getPrice()+100;		
 		product.setPrice(iprice);
-		contentDao.updateContentFromDao(product);		
+
+		System.out.println(product.getTrxes().isEmpty());
+		if(product.getTrxes().isEmpty()){		
+			System.out.println("is null::"+product.getTrxes());
+		}
+		System.out.println(product.getBrief()+" "+product.getTitle()+" "+product.getPrice()+" ");
+		System.out.println("product.getTrxes()::"+product.getTrxes());
+		System.out.println("trx price::"+product.getTrxes().get(0).getPrice());
+
+	}
+	
+	@Test
+	public void contentDaoTest3(){
 		
-		System.out.println(product.getText().toString());
-		System.out.println(product.getBrief().toString());
-		System.out.println(product.getPrice().toString());
+		
+		List<Product> productList=contentDao.getAllContentInfoFromDao();
+		
+		for(Product product:productList){
+			System.out.println(product.getPrice().toString());
+			System.out.println("product.getTrxes()::"+product.getTrxes());
+			System.out.println("trx::"+product.getTrxes().get(0).getTrxcontentId());
+		}
+		
+
+
 	}
 
 }

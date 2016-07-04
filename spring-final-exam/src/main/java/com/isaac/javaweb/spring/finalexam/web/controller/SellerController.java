@@ -226,14 +226,15 @@ public class SellerController {
 		productforweb.setId(product.getContentid());
 		productforweb.setDetail(new String(product.getText()));
 		
-		if(product.getTrxes()==null){
+		if(product.getTrxes().isEmpty()){
 			productforweb.setIsSell(false);
 			productforweb.setIsBuy(false);
-			productforweb.setBuyNum(0);
+			productforweb.setBuyNum(0);			
 		}else{
 			productforweb.setIsSell(true);
 			productforweb.setIsBuy(true);
 			productforweb.setBuyNum(product.getTrxes().size());
+			productforweb.setBuyPrice(product.getTrxes().get(0).getPrice()/100.0);
 		}
 		
 

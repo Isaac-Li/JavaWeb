@@ -82,7 +82,6 @@ public class HomeController {
 				for(ProductForWeb product1:productList){
 					if(!product1.getIsBuy()){
 						nosaleproductList.add(product1);
-						System.out.println(product1.getId());
 					}
 				}
 				
@@ -234,8 +233,8 @@ public class HomeController {
 			proforweb.setDetail( new String(product.getText()));
 			proforweb.setTitle(product.getTitle());
 
-			//check transaction, if no transaction, isBuy and isShell will be false.
-			if(product.getTrxes()==null){
+			//check transaction, if no transaction, isBuy and isShell will be false.			
+			if(product.getTrxes().isEmpty()){
 				proforweb.setIsBuy(false);
 				proforweb.setIsSell(false);
 			}else{						

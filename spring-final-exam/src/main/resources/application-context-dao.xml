@@ -44,5 +44,6 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.isaac.javaweb.spring.finalexam.dao" />
     </bean>
+    
 	
 </beans>

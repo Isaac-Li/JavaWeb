@@ -10,7 +10,7 @@ public class ProductForWeb {
 	private Boolean isBuy;
 	private Boolean isSell;
 	private Integer buyNum;
-
+	private Double buyPrice;
 	
 	
 	public Integer getId() {
@@ -69,6 +69,12 @@ public class ProductForWeb {
 	}
 	public void setBuyNum(Integer buyNum) {
 		this.buyNum = buyNum;
+	}
+	public Double getBuyPrice() {
+		return buyPrice;
+	}
+	public void setBuyPrice(Double buyPrice) {
+		this.buyPrice = buyPrice;
 	}
 	
 	
