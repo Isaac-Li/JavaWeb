@@ -11,6 +11,7 @@ public class ProductForWeb {
 	private Boolean isSell;
 	private Integer buyNum;
 	private Double buyPrice;
+	private Long buyTime;
 	
 	
 	public Integer getId() {
@@ -75,6 +76,12 @@ public class ProductForWeb {
 	}
 	public void setBuyPrice(Double buyPrice) {
 		this.buyPrice = buyPrice;
+	}
+	public Long getBuyTime() {
+		return buyTime;
+	}
+	public void setBuyTime(Long buyTime) {
+		this.buyTime = buyTime;
 	}
 	
 	

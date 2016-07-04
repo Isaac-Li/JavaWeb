@@ -4,6 +4,7 @@ public class ProductByBuyer {
 	private Integer id;
 	private Integer number;
 	
+	
 	public Integer getId() {
 		return id;
 	}

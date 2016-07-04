@@ -235,6 +235,7 @@ public class SellerController {
 			productforweb.setIsBuy(true);
 			productforweb.setBuyNum(product.getTrxes().size());
 			productforweb.setBuyPrice(product.getTrxes().get(0).getPrice()/100.0);
+			productforweb.setBuyTime(product.getTrxes().get(0).getTime());
 		}
 		
 

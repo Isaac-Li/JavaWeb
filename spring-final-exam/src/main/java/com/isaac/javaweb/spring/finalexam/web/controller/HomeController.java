@@ -1,7 +1,6 @@
 package com.isaac.javaweb.spring.finalexam.web.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,9 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.meta.Product;
-import com.isaac.javaweb.spring.finalexam.meta.ProductByBuyer;
 import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
-import com.isaac.javaweb.spring.finalexam.meta.Trx;
 import com.isaac.javaweb.spring.finalexam.service.IPersonService;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
 
@@ -237,9 +233,13 @@ public class HomeController {
 			if(product.getTrxes().isEmpty()){
 				proforweb.setIsBuy(false);
 				proforweb.setIsSell(false);
+				proforweb.setBuyNum(0);	
 			}else{						
 				proforweb.setIsBuy(true);
 				proforweb.setIsSell(true);
+				proforweb.setBuyNum(product.getTrxes().size());
+				proforweb.setBuyPrice(product.getTrxes().get(0).getPrice()/100.0);
+				proforweb.setBuyTime(product.getTrxes().get(0).getTime());
 			}
 			
 			productforweblist.add(proforweb);
@@ -250,5 +250,25 @@ public class HomeController {
 		
 	}
 
+	@RequestMapping(value="/account")
+	public void buyerAccount(@ModelAttribute("loginuser") User user,Model model){
+		model.addAttribute("user", user); 
+		
+		List<ProductForWeb> productList=getAllProductListForWeb();
+		
+			
+		if(productList!=null){
+			List<ProductForWeb> productlistbybuyer=new ArrayList<ProductForWeb>();
+			
+			for(ProductForWeb product1:productList){
+				if(product1.getIsBuy()){
+					productlistbybuyer.add(product1);
+				}
+			}
+			
+			model.addAttribute("buyList", productlistbybuyer);
+		}
+
+	}
 
 }

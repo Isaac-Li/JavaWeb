@@ -52,4 +52,6 @@ public class BuyerController {
 		
 		model.addAttribute("code", 200);
 	}
+	
+
 }
