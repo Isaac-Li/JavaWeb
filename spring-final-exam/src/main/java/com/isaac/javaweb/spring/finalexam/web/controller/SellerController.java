@@ -329,5 +329,24 @@ public class SellerController {
 		 
 		 return model;
 	}
+
+	@RequestMapping(value="/delete")
+	public  void deleteProduct(ModelMap map,Model model){
 		
+		Product product=new Product();
+		product.setContentid(Integer.parseInt(request.getParameter("id")));
+		
+		int iresult=productservice.deleteContent(product);
+		
+		if(iresult>0){
+			model.addAttribute("code", 200);
+		}
+		
+		if(map.containsAttribute("loginuser")){
+			model.addAttribute("user", (User)map.get("loginuser"));
+		}
+		
+		return ;
+		
+	}
 }

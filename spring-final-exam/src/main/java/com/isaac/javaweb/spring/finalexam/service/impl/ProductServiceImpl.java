@@ -35,4 +35,8 @@ public class ProductServiceImpl implements IProductService {
 		return contentDao.updateContentFromDao(product);
 	}
 
+	@Override
+	public int deleteContent(Product product){
+		return contentDao.deleteContentFromDao(product);
+	}
 }

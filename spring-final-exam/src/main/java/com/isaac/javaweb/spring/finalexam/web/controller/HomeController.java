@@ -98,7 +98,8 @@ public class HomeController {
 	
 	public User CheckFirstLogin(){
 		User user=new User();
-		String usernameFromCookie="";		
+		String usernameFromCookie=new String();
+		usernameFromCookie="";		
 		
 		//get session
 		HttpSession session =request.getSession(false);		

@@ -10,4 +10,5 @@ public interface IProductService {
 	public void addContent(Product product);
 	public Product getContentInfo(Product product);
 	public int updateContent(Product product);
+	public int deleteContent(Product product);
 }
