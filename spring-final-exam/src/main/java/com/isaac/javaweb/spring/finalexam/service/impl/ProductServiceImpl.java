@@ -9,7 +9,7 @@ import com.isaac.javaweb.spring.finalexam.dao.IContentDao;
 import com.isaac.javaweb.spring.finalexam.meta.Product;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
 
-@Component("productInfo")
+@Component("ProductServiceImpl")
 public class ProductServiceImpl implements IProductService {
 
 	@Autowired

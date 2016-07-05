@@ -7,7 +7,7 @@ import com.isaac.javaweb.spring.finalexam.dao.ITrxDao;
 import com.isaac.javaweb.spring.finalexam.meta.Trx;
 import com.isaac.javaweb.spring.finalexam.service.ITrxService;
 
-@Component("trxInfo")
+@Component("TrxServiceImpl")
 public class TrxServiceImpl implements ITrxService {
 	
 	@Autowired

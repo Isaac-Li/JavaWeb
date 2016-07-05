@@ -101,9 +101,9 @@ public class DaoTest {
 		if(product.getTrxes().isEmpty()){		
 			System.out.println("is null::"+product.getTrxes());
 		}
-		System.out.println(product.getBrief()+" "+product.getTitle()+" "+product.getPrice()+" ");
-		System.out.println("product.getTrxes()::"+product.getTrxes());
-		System.out.println("trx price::"+product.getTrxes().get(0).getPrice());
+//		System.out.println(product.getBrief()+" "+product.getTitle()+" "+product.getPrice()+" ");
+//		System.out.println("product.getTrxes()::"+product.getTrxes());
+//		System.out.println("trx price::"+product.getTrxes().get(0).getPrice());
 
 	}
 	
@@ -114,9 +114,9 @@ public class DaoTest {
 		List<Product> productList=contentDao.getAllContentInfoFromDao();
 		
 		for(Product product:productList){
-			System.out.println(product.getPrice().toString());
-			System.out.println("product.getTrxes()::"+product.getTrxes());
-			System.out.println("trx::"+product.getTrxes().get(0).getTrxcontentId());
+//			System.out.println(product.getPrice().toString());
+//			System.out.println("product.getTrxes()::"+product.getTrxes());
+//			System.out.println("trx::"+product.getTrxes().get(0).getTrxcontentId());
 		}
 		
 

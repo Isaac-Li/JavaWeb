@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -24,6 +25,7 @@ import com.isaac.javaweb.spring.finalexam.meta.Product;
 import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
 import com.isaac.javaweb.spring.finalexam.service.IPersonService;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
+import com.isaac.javaweb.spring.finalexam.service.impl.ProductServiceImpl;
 
 @Controller
 @SessionAttributes("loginuser")
@@ -142,13 +144,13 @@ public class HomeController {
 		
 	}
 	
-	@RequestMapping(value="/login")
-	public String FirstLogin(){
+	@RequestMapping(value="/login", method = RequestMethod.GET)	
+	public String userLogin(){
 		return "login";
 	}
 	
-	@RequestMapping(value="/postlogin")
-	public @ResponseBody Object PostLogin(HttpServletResponse response, Model model){
+	@RequestMapping(value="/postlogin", method = RequestMethod.POST)
+	public @ResponseBody Object userPostLogin(HttpServletResponse response, Model model){
 		
 		User user=new User();
 		user.setUserName(request.getParameter("userName"));

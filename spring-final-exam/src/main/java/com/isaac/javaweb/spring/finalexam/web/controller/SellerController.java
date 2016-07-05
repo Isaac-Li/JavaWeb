@@ -31,6 +31,7 @@ import com.isaac.javaweb.spring.finalexam.meta.Product;
 import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
+import com.isaac.javaweb.spring.finalexam.service.impl.ProductServiceImpl;
 
 
 @Controller

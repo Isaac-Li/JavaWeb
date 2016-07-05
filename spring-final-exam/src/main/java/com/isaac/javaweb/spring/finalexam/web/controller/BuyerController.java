@@ -17,6 +17,7 @@ import com.isaac.javaweb.spring.finalexam.meta.Trx;
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
 import com.isaac.javaweb.spring.finalexam.service.ITrxService;
+import com.isaac.javaweb.spring.finalexam.service.impl.ProductServiceImpl;
 
 @Controller
 @SessionAttributes("loginuser")
