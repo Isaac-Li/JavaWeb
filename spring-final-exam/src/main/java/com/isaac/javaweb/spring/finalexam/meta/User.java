@@ -49,6 +49,10 @@ public class User {
 	public void setUserType(Integer userType) {
 		this.userType = userType;
 	}
+	@Override
+	public String toString() {
+		return "User [userid=" + userid + ", userName=" + userName + ", userType=" + userType + "]";
+	}
 	
 	
 	

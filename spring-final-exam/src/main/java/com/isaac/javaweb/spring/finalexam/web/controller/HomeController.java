@@ -1,5 +1,6 @@
 package com.isaac.javaweb.spring.finalexam.web.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,13 +22,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.meta.Product;
 import com.isaac.javaweb.spring.finalexam.meta.ProductForWeb;
 import com.isaac.javaweb.spring.finalexam.service.IPersonService;
 import com.isaac.javaweb.spring.finalexam.service.IProductService;
-import com.isaac.javaweb.spring.finalexam.service.impl.ProductServiceImpl;
+
 
 @Controller
 @SessionAttributes("loginuser")
@@ -40,6 +44,8 @@ public class HomeController {
 	private HttpServletRequest request;
 	
 	private Boolean isFirstLogin=true;
+	
+	private Logger log = Logger.getLogger(getClass());
 	
     //home page
 	@RequestMapping (value={"/","/home"})	
@@ -105,7 +111,8 @@ public class HomeController {
 		
 		//get session
 		HttpSession session =request.getSession(false);		
-		String userpasswordFromsession="";
+		String userpasswordFromsession=new String();
+		userpasswordFromsession="";
 		
 		if(session==null){
 			isFirstLogin=true;
@@ -129,7 +136,14 @@ public class HomeController {
 			userpasswordFromsession=(String)session.getAttribute("password");
 		}
 		
+
 		//check usernameFromCookie or userpasswordFromsession which is null or not, if it is empty, return true.
+		if(usernameFromCookie==null || userpasswordFromsession==null){
+			isFirstLogin=true;
+			user.setUserName("");
+			return user;
+		}
+		
 		if(usernameFromCookie.equals("") || userpasswordFromsession.equals("")){			
 			isFirstLogin=true;
 			user.setUserName("");
@@ -274,4 +288,11 @@ public class HomeController {
 
 	}
 
+	
+	@ExceptionHandler(Exception.class)    
+    public void exceptionHandler(Exception ex,HttpServletResponse response,HttpServletRequest request) throws IOException{    
+        log.error(ex.getMessage(), ex);  
+        response.sendRedirect(request.getContextPath()+"/html/error.html");  
+
+    }  
 }

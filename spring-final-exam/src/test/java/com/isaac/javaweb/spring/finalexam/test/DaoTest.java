@@ -37,7 +37,7 @@ public class DaoTest {
 	
 	@Test
 	public void ServiceTest1(){
-		IPersonService person=(IPersonService)ctx.getBean("personInfo", PersonServiceImpl.class);
+		IPersonService person=(IPersonService)ctx.getBean("PersonServiceImpl", IPersonService.class);
 		User user=new User();
 		user.setUserName("buyer");
 		user=person.getUserInfo(user);

@@ -30,14 +30,14 @@
             <div class="fmitem">
             <label class="fmlab">图片：</label>
             	<div class="fmipt" id="uploadType">
-	                <input name="pic" type="radio" value="url" checked /> 图片地址
-					<input name="pic" type="radio" value="file" /> 本地上传
+	                <input name="pic" type="radio" value="url"  <#if pic="url"> checked </#if> /> 图片地址
+					<input name="pic" type="radio" value="file" <#if pic="file"> checked  </#if> /> 本地上传
 				</div>	
             </div>
             <div class="fmitem">
                 <label class="fmlab"></label>
                 <div class="fmipt" id="urlUpload">
-                    <input class="u-ipt ipt"  name="image" value="${product.image}" placeholder="图片地址"/>
+                    <input class="u-ipt ipt"  name="image" <#if pic="url"> value="${product.image}" </#if> placeholder="图片地址"/>
                 </div>
                 <div class="fmipt" id="fileUpload"  style="display:none">
                     <input class="u-ipt ipt" name="file" type="file" id="fileUp"/>

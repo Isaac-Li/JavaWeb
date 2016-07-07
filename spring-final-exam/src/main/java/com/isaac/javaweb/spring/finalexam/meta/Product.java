@@ -1,5 +1,6 @@
 package com.isaac.javaweb.spring.finalexam.meta;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Product {
@@ -54,6 +55,11 @@ public class Product {
 	}
 	public void setText(byte[] text) {
 		this.text = text;
+	}
+	@Override
+	public String toString() {
+		return "Product [contentid=" + contentid + ", price=" + price + ", title=" + title + ", brief=" + brief
+				+ ", text=" + Arrays.toString(text) + ", trxes=" + trxes + "]";
 	}
 	
 	

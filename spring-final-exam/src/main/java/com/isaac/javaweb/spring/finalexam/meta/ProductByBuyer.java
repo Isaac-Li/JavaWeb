@@ -17,6 +17,10 @@ public class ProductByBuyer {
 	public void setNumber(Integer number) {
 		this.number = number;
 	}
+	@Override
+	public String toString() {
+		return "ProductByBuyer [id=" + id + ", number=" + number + "]";
+	}
 	
 	
 }

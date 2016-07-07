@@ -10,6 +10,21 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
+  
+  <!-- 出错页面定义 -->  
+	<error-page>  
+	    <exception-type>java.lang.Throwable</exception-type>  
+	    <location>/html/error.html</location>  
+	</error-page>  
+	<error-page>  
+	    <error-code>500</error-code>  
+	    <location>/html/error.html</location>  
+	</error-page>  
+	<error-page>  
+	    <error-code>404</error-code>  
+	    <location>/html/error.html</location>  
+	</error-page>  
+
     <!-- 编码过滤器 -->  
     <filter>  
         <filter-name>encodingFilter</filter-name>  
@@ -31,6 +46,12 @@
 	  </context-param>
 	  
 	  <!-- Spring监听器 --> 
+	 <listener>  
+        <listener-class>  
+            org.springframework.web.util.IntrospectorCleanupListener  
+        </listener-class>  
+    </listener> 
+	  
 	  <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
 	  </listener>

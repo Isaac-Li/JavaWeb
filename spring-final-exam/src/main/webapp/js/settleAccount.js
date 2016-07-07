@@ -15,19 +15,22 @@
 			  "<th>" + '价格' + "</th>" +
 			  "</tr>";
 
-	for(var i = 0; i < products.length; i++){
-		str = str + 
-		"<tr>" + 
-		"<td>" + products[i].title  + "</td>"+
-		"<td>" + 
-		"<span class=\"lessNum\">"+ "-" + "</span>" +
-		"<span class=\"totalNum\" id=\"allNum\">" + products[i].num + "</span>" +
-		"<span id=\"thisId\">" + products[i].id + "</span>" +
-		"<span class=\"moreNum\">"+ "+" + "</span>" + "</td>" +
-		"<td>" + products[i].price + "</td>" +
-		"</tr>";
-	}
+	if(products !=null){
+		for(var i = 0; i < products.length; i++){
+			str = str + 
+			"<tr>" + 
+			"<td>" + products[i].title  + "</td>"+
+			"<td>" + 
+			"<span id=\"plusNum\" class=\"lessNum\"> <a>"+ "-" + "</a> </span>" +
+			"<span class=\"totalNum\" id=\"allNum\">" + products[i].num + "</span>" +
+			"<span id=\"thisId\">" + products[i].id + "</span>" +
+			"<span id=\"addNum\" class=\"moreNum\"> <a>"+ "+" + "</a> </span>" + "</td>" +
+			"<td>" + products[i].price + "</td>" +
+			"</tr>";
+		}
 
+	}
+	
 	$("newTable").innerHTML = str;
 	
 	var getcurPath =function() {
@@ -43,28 +46,7 @@
 
 	
 	window.onload = function(){
-		$('newTable').onclick = function(e){
-			var e = arguments[0] || window.event;
-			target = e.srcElement ? e.srcElement : e.target;
-			if(target.nodeName == "SPAN" && target.className == "moreNum"){
-				var num = target.parentElement.children[1].textContent;
-				var id = target.parentElement.children[2].textContent;
-				num ++;
-				target.parentElement.children[1].textContent = num;
-				util.modifyOne(products,id,num);
-			}else if(target.nodeName == "SPAN" && target.className == "lessNum"){
-				var num = target.parentElement.children[1].textContent;
-				var id = target.parentElement.children[2].textContent;
-				num --;
-				if(num < 0){
-					alert("该商品数量为0");
-				}else{
-					target.parentElement.children[1].textContent = num;
-					util.modifyOne(products,id,num);
-				}
-			}
-			return false;
-		};
+
 	};
 
 	var loading = new Loading();
@@ -106,7 +88,28 @@
 			}).show();
 			return;
 	};
+	
 	$('back').onclick = function(){
 		location.href = window.history.back();
 	}
+	
+	$('plusNum').onclick = function(e){
+		e = window.event || e;
+		o = e.srcElement || e.target;
+		var num = $('allNum').textContent;
+		if(num > 1){
+			num --;
+			$('allNum').innerHTML = num;
+		}else{
+			alert("购买的商品数量不能为零！");
+		}
+	};
+
+	$('addNum').onclick = function(e){
+		e = window.event || e;
+		o = e.srcElement || e.target;
+		var num = $('allNum').textContent;
+		num ++;
+		$('allNum').innerHTML = num;
+	};
 })(window,document);

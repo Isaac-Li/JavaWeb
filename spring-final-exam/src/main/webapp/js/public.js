@@ -46,6 +46,8 @@
 				}
 			};
 			
+
+			
 			$('upload').addEventListener('click', function (){
 				
 				uploadInput.addEventListener('change', function() {

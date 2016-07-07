@@ -83,6 +83,12 @@ public class ProductForWeb {
 	public void setBuyTime(Long buyTime) {
 		this.buyTime = buyTime;
 	}
+	@Override
+	public String toString() {
+		return "ProductForWeb [id=" + id + ", price=" + price + ", title=" + title + ", image=" + image + ", summary="
+				+ summary + ", detail=" + detail + ", isBuy=" + isBuy + ", isSell=" + isSell + ", buyNum=" + buyNum
+				+ ", buyPrice=" + buyPrice + ", buyTime=" + buyTime + "]";
+	}
 	
 	
 }
