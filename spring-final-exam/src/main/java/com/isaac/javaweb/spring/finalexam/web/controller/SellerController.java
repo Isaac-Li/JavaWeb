@@ -52,12 +52,14 @@ public class SellerController {
 	
 	private Logger log = Logger.getLogger(getClass());
 	
+	//show public page
 	@RequestMapping(value="/public")
 	public String sellerPublic(@ModelAttribute("loginuser") User user, Model model){		
 		model.addAttribute("user", user); 
 		return "public";
 	}
 	
+	//public product
 	@RequestMapping(value="/publicSubmit")
 	public void publicSubmit(@ModelAttribute("loginuser") User user,Model model){
 		model.addAttribute("user", user); 		
@@ -190,7 +192,7 @@ public class SellerController {
 		return dbimagepath;
 	}
 	
-	
+	//show product information
 	@RequestMapping(value="/show")
 	public  void showProduct(ModelMap map,Model model, @RequestParam("id") int productid){
 		
@@ -212,6 +214,7 @@ public class SellerController {
 		
 	}
 	
+	//convert product to productForWeb
 	public ProductForWeb getProductInfoForWeb(Product product, Boolean isEdit){
 		ProductForWeb productforweb=new ProductForWeb();
 		
@@ -251,7 +254,7 @@ public class SellerController {
 	}
 	
 	
-	//edit
+	//edit product
 	@RequestMapping(value="/edit")
 	public  void editProduct(ModelMap map, Model model, @RequestParam("id") int productid){
 		
@@ -302,15 +305,31 @@ public class SellerController {
 		
 		/////////////////////////////////////////////////////		
 		//get image path 		
-		String dbimagepath=getDBImagePath(request.getParameter("pic"));
-		if (dbimagepath.equals("-1")){
-			return;
+		
+		//check image path was changed or not.
+		Product productdbinfo= new Product();
+		productdbinfo=productservice.getContentInfo(product);
+		String tempstring=new String(productdbinfo.getIcon());
+		
+		String imagefilenamefromdb=tempstring.substring(tempstring.lastIndexOf("/"));
+		String imagefilenamefromweb=request.getParameter("image").substring(request.getParameter("image").lastIndexOf("/"));
+		
+		if(imagefilenamefromdb.equals(imagefilenamefromweb)){
+			product.setIcon(imagefilenamefromdb.getBytes());
 		}else
 		{
-			product.setIcon(dbimagepath.getBytes());
+			String dbimagepath=getDBImagePath(request.getParameter("pic"));
+			if (dbimagepath.equals("-1")){
+				return;
+			}else
+			{
+				product.setIcon(dbimagepath.getBytes());
+			}
 		}
 		
-							
+
+		
+		//update content information					
 		int result=productservice.updateContent(product);		
 		if(result>0){
 			model.addAttribute("product", product);
@@ -323,6 +342,7 @@ public class SellerController {
 	}
 	
 
+	//upload local image file
 	@RequestMapping(value="/upload")
 	public  @ResponseBody Object uploadFile(@RequestParam("file") MultipartFile file,  Model model){
 		 if (!file.isEmpty()) {  
@@ -342,6 +362,7 @@ public class SellerController {
 		 return model;
 	}
 
+	//delete product
 	@RequestMapping(value="/delete")
 	public  void deleteProduct(ModelMap map,Model model){
 		
@@ -362,6 +383,7 @@ public class SellerController {
 		
 	}
 	
+	//exception handler for this controller
 	@ExceptionHandler(Exception.class)    
     public void exceptionHandler(Exception ex,HttpServletResponse response,HttpServletRequest request) throws IOException{    
         log.error(ex.getMessage(), ex);  

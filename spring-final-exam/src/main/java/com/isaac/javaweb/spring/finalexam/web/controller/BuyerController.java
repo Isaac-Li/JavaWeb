@@ -37,6 +37,7 @@ public class BuyerController {
 	
 	private Logger log = Logger.getLogger(getClass());
 	
+	//buy products
 	@RequestMapping(value="/buy")
 	public void buyProducts(@ModelAttribute("loginuser") User user,Model model, @RequestBody List<ProductByBuyer> productinsettlelist){
 		model.addAttribute("user", user); 
@@ -62,11 +63,21 @@ public class BuyerController {
 		model.addAttribute("code", 200);
 	}
 	
+	//settleAccount
+	@RequestMapping(value="/settleAccount")
+	public String buyerSettleAccount(@ModelAttribute("loginuser") User user,Model model){
+		model.addAttribute("user", user); 	
+		return "settleAccount";
+	}
+	
+	//Exception Handler for this controller
 	@ExceptionHandler(Exception.class)    
     public void exceptionHandler(Exception ex,HttpServletResponse response,HttpServletRequest request) throws IOException{    
         log.error(ex.getMessage(), ex);  
         response.sendRedirect(request.getContextPath()+"/html/error.html");  
 
     }  
+	
+	
 
 }

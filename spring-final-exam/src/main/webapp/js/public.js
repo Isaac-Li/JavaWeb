@@ -8,6 +8,7 @@
 	var image = form['image'];
 	var detail = form['detail'];
 	var price = form['price'];
+	var pic = form['pic'];
 	var uploadInput = form['file'];
 	var isSubmiting = false;
 	var imgpre = util.get('imgpre');
@@ -31,6 +32,18 @@
 			var $ = function(id){
 				return document.getElementById(id);
 			};
+			
+			window.onload=function(){
+				 if(pic.value=='file'){
+					 var s,h;
+						s='fileUpload';
+						imageMode = 'fileUpload';
+						image.classList.remove("z-err");
+						uploadInput.classList.remove("z-err");
+						$('fileUpload').style.display='block';
+						$('urlUpload').style.display='none';
+				 }
+			}
 			
 			$('uploadType').onclick = function(e){
 				e = window.event || e;

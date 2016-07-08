@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.isaac.javaweb.spring.finalexam.meta.User;
 import com.isaac.javaweb.spring.finalexam.meta.Product;
@@ -158,11 +157,13 @@ public class HomeController {
 		
 	}
 	
+	//login page
 	@RequestMapping(value="/login", method = RequestMethod.GET)	
 	public String userLogin(){
 		return "login";
 	}
 	
+	//post login
 	@RequestMapping(value="/postlogin", method = RequestMethod.POST)
 	public @ResponseBody Object userPostLogin(HttpServletResponse response, Model model){
 		
@@ -203,6 +204,7 @@ public class HomeController {
 
 	}
 	
+	//logout
 	@RequestMapping(value="/logout")
 	public String LogoutAndshowHomePage(HttpServletResponse response, SessionStatus sessionstatus){
 
@@ -224,11 +226,7 @@ public class HomeController {
 		return "login";
 	}
 	
-	@RequestMapping(value="/settleAccount")
-	public String buyerSettleAccount(@ModelAttribute("loginuser") User user,Model model){
-		model.addAttribute("user", user); 	
-		return "settleAccount";
-	}
+
 
 	public List<ProductForWeb> getAllProductListForWeb(){
 		List<Product> productlist=productservice.getAllContentInfo();
@@ -267,6 +265,7 @@ public class HomeController {
 		
 	}
 
+	//account
 	@RequestMapping(value="/account")
 	public void buyerAccount(@ModelAttribute("loginuser") User user,Model model){
 		model.addAttribute("user", user); 
